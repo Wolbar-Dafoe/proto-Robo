@@ -1,7 +1,7 @@
 # proto-Robo
 
 ## Preface
-This is my personal rework for the [4tronix Initio PiRoCon Drone](https://4tronix.co.uk/blog/?p=50) and my first public repo where i will be experimenting with more advanced github features
+This is my personal rework for the [4tronix Initio PiRoCon Drone](https://4tronix.co.uk/blog/?p=50) and my first public repo where i will be experimenting with more advanced github features, So please bare with me :)
 
 
 **I would like to thank [4tronix](https://shop.4tronix.co.uk/) for the excellent drone kit and accompanying code.**
