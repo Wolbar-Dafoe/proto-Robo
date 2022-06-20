@@ -3,7 +3,7 @@
 # PLEASE DO NOT RUN THIS CODE ON A PI THAT IS NOT SETUP AS AN INITIO DRONE (PiRoCon Ver) AS IT WILL NOT WORK
 
 # ===================================================================================
-# Drone Control.py - Ver 0.7
+# Drone Control.py - Ver 0.8.2
 #
 # Created BY W. D.  June 2022
 # Last Update: June 2022
@@ -11,14 +11,35 @@
 # ===================================================================================
 
 # START OF CODE
-import initio       # Importing Initio.py to use PiRoCon interface Made by 4tronix
-import keyboard     # Used for keyboard press recognition
+import time
+
+import initio  # Importing Initio.py to use PiRoCon interface Made by 4tronix
+import keyboard  # Used for keyboard press recognition
 
 # Initialise initio libray
 initio.init()
 
+# Debug print bool
+DEBUG = False
 
-def increaseSpeed(speed):
+
+def log(comment):
+    """
+    Function to print debug msgs
+
+    :param comment: - Debug msg to print
+    """
+    if DEBUG is True:
+        print(comment)
+
+
+def switchDebug(x: bool):
+    newDEBUG = not x
+    time.sleep(1)
+    return newDEBUG
+
+
+def increaseSpeed(speed: int):
     """
     Increases motor speed by 10 and returns new value.
 
@@ -27,15 +48,17 @@ def increaseSpeed(speed):
     """
     if speed < 100:
         speed = speed + 10
-        print("{DEBUG} Speed increased")
+        log("{DEBUG} Speed increased")
+        time.sleep(1)
         return speed
 
     else:
-        print("{DEBUG} Max Speed Reached")
+        log("{DEBUG} Max Speed Reached")
+        time.sleep(1)
         return speed
 
 
-def decreaseSpeed(speed):
+def decreaseSpeed(speed: int):
     """
     Decreases Speed by 10 and returns new value
 
@@ -44,52 +67,58 @@ def decreaseSpeed(speed):
     """
     if speed > 10:
         speed = speed - 10
-        print("{DEBUG} Speed Decreased")
+        log("{DEBUG} Speed Decreased")
+        time.sleep(1)
         return speed
 
     else:
-        print("{DEBUG} Slowest Speed Set")
+        log("{DEBUG} Slowest Speed Set")
+        time.sleep(1)
         return speed
 
 
-def forward(speed):
+def forward(speed: int):
     """
     Sets motors to forward at given speed
 
     :param speed:
     """
     initio.forward(speed)
-    print("{DEBUG} Forward at ", speed, " speed")
+    string = "{DEBUG} forward at ", speed, "% speed"
+    log(string)
 
 
-def reverse(speed):
+def reverse(speed: int):
     """
     Sets motors in reverse at given speed
 
     :param speed:
     """
     initio.reverse(speed)
-    print("{DEBUG} Reverse at ", speed, " speed")
+    string = "{DEBUG} reverse at ", speed, "% speed"
+    log(string)
 
 
-def leftSpin(speed):
+def leftSpin(speed: int):
     """
     Sets motors to stationary left spin at given speed
 
     :param speed:
     """
     initio.spinLeft(speed)
-    print("{DEBUG} leftSpin at ", speed, " speed")
+    string = "{DEBUG} leftSpin at ", speed, "% speed"
+    log(string)
 
 
-def rightSpin(speed):
+def rightSpin(speed: int):
     """
     Sets motors to stationary right spin at given speed
 
     :param speed:
     """
     initio.spinRight(speed)
-    print("{DEBUG} rightSpin at ", speed, " speed")
+    string = "{DEBUG} rightSpin at ", speed, "% speed"
+    log(string)
 
 
 def motorStop():
@@ -97,11 +126,12 @@ def motorStop():
     Stops All Motors
     """
     initio.stop()
-    print("{DEBUG} All motors stopped")
+    log("{DEBUG} All motors stopped")
 
 
 def main():
-    speed = 30
+    global DEBUG    # TODO: Replace with local variable
+    speed = 50      # Set to 50% as default
 
     try:
         while True:
@@ -130,13 +160,17 @@ def main():
                 rightSpin(speed)
 
             # TODO: # Explore Modifiers {WIP}
-            # keyboard.om_press_key("m" modeSwitch())
+
+            # Config Modifiers
+            elif keyboard.is_pressed("0"):
+                DEBUG = switchDebug(DEBUG)
 
     except KeyboardInterrupt:  # The following will run if ctrl+C is inputted
-        print("{DEBUG} Interrupt Detected Program Stopping")
+        log("{DEBUG} Interrupt Detected Program Stopping")
 
     finally:  # Initiates program cleanup
         initio.cleanup()
+        exit()
 
 
 main()
