@@ -3,7 +3,7 @@
 # PLEASE DO NOT RUN THIS CODE ON A PI THAT IS NOT SETUP AS AN INITIO DRONE (PiRoCon Ver) AS IT WILL NOT WORK
 
 # ===================================================================================
-# Drone Control.py - Ver 0.8.0
+# Drone Control.py - Ver 0.8.2
 #
 # Created BY W. D.  June 2022
 # Last Update: June 2022
@@ -11,6 +11,8 @@
 # ===================================================================================
 
 # START OF CODE
+import time
+
 import initio  # Importing Initio.py to use PiRoCon interface Made by 4tronix
 import keyboard  # Used for keyboard press recognition
 
@@ -21,7 +23,7 @@ initio.init()
 DEBUG = False
 
 
-def log(comment: str):
+def log(comment):
     """
     Function to print debug msgs
 
@@ -33,6 +35,7 @@ def log(comment: str):
 
 def switchDebug(x: bool):
     newDEBUG = not x
+    time.sleep(1)
     return newDEBUG
 
 
@@ -46,10 +49,12 @@ def increaseSpeed(speed: int):
     if speed < 100:
         speed = speed + 10
         log("{DEBUG} Speed increased")
+        time.sleep(1)
         return speed
 
     else:
         log("{DEBUG} Max Speed Reached")
+        time.sleep(1)
         return speed
 
 
@@ -63,10 +68,12 @@ def decreaseSpeed(speed: int):
     if speed > 10:
         speed = speed - 10
         log("{DEBUG} Speed Decreased")
+        time.sleep(1)
         return speed
 
     else:
         log("{DEBUG} Slowest Speed Set")
+        time.sleep(1)
         return speed
 
 
@@ -139,10 +146,10 @@ def main():
                 motorStop()
 
             # Speed Modifiers
-            elif keyboard.on_release("-"):
+            elif keyboard.is_pressed("-"):
                 speed = decreaseSpeed(speed)
 
-            elif keyboard.on_release("="):
+            elif keyboard.is_pressed("="):
                 speed = increaseSpeed(speed)
 
             # Turning Modifiers
@@ -155,7 +162,7 @@ def main():
             # TODO: # Explore Modifiers {WIP}
 
             # Config Modifiers
-            elif keyboard.on_release("0"):
+            elif keyboard.is_pressed("0"):
                 DEBUG = switchDebug(DEBUG)
 
     except KeyboardInterrupt:  # The following will run if ctrl+C is inputted
