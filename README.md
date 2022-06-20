@@ -24,3 +24,7 @@ This is my personal rework for the [4tronix Initio PiRoCon Drone](https://4troni
 - [ ] Ability to turn whilst moving (See leftTurn & RightTurn in initio.py)
 - [ ] Servo Implementation using 4tronix Servod
 - [ ] \(Stretch) Object Avoidance Automation
+
+### Dependencies
+- [keyboard](https://pypi.org/project/keyboard/)
+- [RPI.GPIO](https://pypi.org/project/RPi.GPIO/) (Comes as standard on Raspberry Pi OS)
